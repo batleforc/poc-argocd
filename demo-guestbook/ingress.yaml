@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: guestbook-ui
   namespace: guestbook
+  annotations:
+    cert-manager.io/cluster-issuer: "ovh-prod-letsencrypt-issuer"
+    haproxy-ingress.github.io/timeout-client: 180s
+    haproxy-ingress.github.io/proxy-body-size: 8m
 spec:
   ingressClassName: haproxy
   rules:
