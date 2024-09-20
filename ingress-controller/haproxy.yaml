@@ -5,7 +5,8 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  syncPolicy: {}
+  syncPolicy:
+    automated: {}
   source:
     chart: haproxy-ingress
     repoURL: https://haproxy-ingress.github.io/charts
