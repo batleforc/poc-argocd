@@ -1,0 +1,59 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: haproxy
+  namespace: argocd
+spec:
+  project: default
+  syncPolicy:
+    automated: {}
+  source:
+    chart: haproxy-ingress
+    repoURL: https://haproxy-ingress.github.io/charts
+    targetRevision: 0.14.7
+    helm:
+      releaseName: haproxy
+      valuesObject:
+        controller:
+          kind: DaemonSet
+          config:
+            syslog-endpoint: stdout
+            syslog-format: rfc5424
+            syslog-length: "2048"
+            external-has-lua: "true"
+            http-log-format: '"client_ip=%ci client_port=%cp date_time=%tr frontend_name=%f backend_name=%b server_name=%s performance_metrics=%TR/%Tw/%Tc/%Tr/%Ta status_code=%ST bytes_read=%B termination_state=%tsc haproxy_metrics=%ac/%fc/%bc/%sc/%rc srv_queue=%sq  backend_queue=%bq user_agent=%{+Q}[capture.req.hdr(0)] http_hostname=%H http_hostname2=%{+Q}[capture.req.hdr(1)] http_version=%HV http_method=\"%HM\" http_request_uri=\"%HU\" http_request=%{+Q}r"'
+          haproxy:
+            enabled: true
+            image:
+              repository: ghcr.io/batleforc/container-img/haproxy
+              tag: main
+            securityContext:
+              runAsUser: 0
+          logs:
+            enabled: false
+          extraArgs:
+            log-zap: true
+          hostNetwork: false
+          ingressClassRessource:
+            enabled: true
+          stats:
+            enabled: true
+          metrics:
+            enabled: true
+          serviceMonitor:
+            enabled: false # need to be switched to true when prometheus-operator is installed
+            metrics:
+              relabelings:
+              - replacement: cl1
+                targetLabel: cluster
+              - sourceLabels: [__meta_kubernetes_pod_node_name]
+                targetLabel: hostname
+            ctrlMetrics:
+              relabelings:
+              - replacement: cl1
+                targetLabel: cluster
+              - sourceLabels: [__meta_kubernetes_pod_node_name]
+                targetLabel: hostname
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: haproxy

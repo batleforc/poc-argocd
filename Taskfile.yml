@@ -30,7 +30,7 @@ tasks:
     - kubectl delete namespace demo-guestbook
   argo:create-main:
     cmds:
-    - argocd app create main --repo $ARGO_APP_REPO --path app-main --dest-server $ARGO_DEST_SERVER --dest-namespace default
+    - argocd app create main --repo $ARGO_APP_REPO --path app-main --dest-server $ARGO_DEST_SERVER --dest-namespace default --sync-policy automated
   argo:delete-main:
     cmds:
     - argocd app delete main
