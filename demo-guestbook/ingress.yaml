@@ -5,8 +5,7 @@ metadata:
   namespace: guestbook
 spec:
   rules:
-  - host: 51.38.223.52
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
