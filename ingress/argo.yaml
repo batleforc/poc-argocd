@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argocd-server
+  namespace: argocd
+  annotations:
+    cert-manager.io/cluster-issuer: "ovh-prod-letsencrypt-issuer"
+    ingress.kubernetes.io/proxy-body-size: "8m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+    haproxy-ingress.github.io/timeout-client: 180s
+    haproxy-ingress.github.io/proxy-body-size: 8m
+    kubernetes.io/ingress.class: haproxy
+spec:
+  tls:
+  - hosts:
+    - argocd.ovh.weebo.fr
+    secretName: argocd-ovh-weebo-tls
+  rules:
+  - host: argocd.ovh.weebo.fr
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: argocd-server
+            port:
+              number: 443
