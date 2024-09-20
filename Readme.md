@@ -1,4 +1,4 @@
-# Beta test de Ovh k8S
+# Beta test de Ovh k8S x ArgoCD
 
 ## Infra
 

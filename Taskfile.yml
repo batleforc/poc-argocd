@@ -2,6 +2,8 @@ version: '3'
 
 env:
   KUBECONFIG: "./kubeconfig.yaml"
+  ARGO_APP_REPO: "https://github.com/batleforc/poc-argocd"
+  ARGO_DEST_SERVER: "https://kubernetes.default.svc"
 
 tasks:
   argo:install:
@@ -18,4 +20,18 @@ tasks:
   argo:get-first-password:
     cmds:
     - kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+  argo:create-demo:
+    cmds:
+    - kubectl create namespace demo-guestbook --dry-run=client -o yaml | kubectl apply -f -
+    - argocd app create guestbook --repo $ARGO_APP_REPO --path demo-guestbook --dest-server $ARGO_DEST_SERVER --dest-namespace demo-guestbook
+  argo:delete-demo:
+    cmds:
+    - argocd app delete guestbook
+    - kubectl delete namespace demo-guestbook
+  argo:create-main:
+    cmds:
+    - argocd app create main --repo $ARGO_APP_REPO --path app-main --dest-server $ARGO_DEST_SERVER --dest-namespace default
+  argo:delete-main:
+    cmds:
+    - argocd app delete main
 
