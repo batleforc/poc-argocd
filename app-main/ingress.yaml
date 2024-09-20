@@ -14,3 +14,5 @@ spec:
     path: ingress
     repoURL: https://github.com/batleforc/poc-argocd.git
     targetRevision: HEAD
+    directory:
+      recurse: true
