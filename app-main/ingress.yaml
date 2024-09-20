@@ -11,6 +11,6 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: ingress-controller
+    path: ingress
     repoURL: https://github.com/batleforc/poc-argocd.git
     targetRevision: HEAD
