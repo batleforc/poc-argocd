@@ -1,0 +1,21 @@
+version: '3'
+
+env:
+  KUBECONFIG: "./kubeconfig.yaml"
+
+tasks:
+  argo:install:
+    cmds:
+    - kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
+    - kubectl apply -n argocd -f ./argo-install.yml
+  argo:port-forward:
+    cmds:
+    - kubectl port-forward svc/argocd-server -n argocd 8080:443
+  argo:uninstall:
+    cmds:
+    - kubectl delete -n argocd -f ./argo-install.yml
+    - kubectl delete namespace argocd
+  argo:get-first-password:
+    cmds:
+    - kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
