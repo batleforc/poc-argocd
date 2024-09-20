@@ -5,11 +5,10 @@ metadata:
   namespace: argocd
   annotations:
     cert-manager.io/cluster-issuer: "ovh-prod-letsencrypt-issuer"
-    ingress.kubernetes.io/proxy-body-size: "8m"
-    nginx.ingress.kubernetes.io/proxy-body-size: "8m"
     haproxy-ingress.github.io/timeout-client: 180s
     haproxy-ingress.github.io/proxy-body-size: 8m
-    kubernetes.io/ingress.class: haproxy
+    haproxy-ingress.github.io/ssl-passthrough: "true"
+    haproxy-ingress.github.io/backend-protocol: "h2-ssl"
 spec:
   tls:
   - hosts:
@@ -25,4 +24,4 @@ spec:
           service:
             name: argocd-server
             port:
-              number: 80
+              name: https
