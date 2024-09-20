@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: haproxy
-  namespace: argocd
+  namespace: haproxy
 spec:
   project: default
   source:
