@@ -9,6 +9,10 @@ metadata:
     haproxy-ingress.github.io/proxy-body-size: 8m
 spec:
   ingressClassName: haproxy
+  tls:
+  - hosts:
+    - test.ovh.weebo.fr
+    secretName: test-ovh-weebo-tls
   rules:
   - http:
       paths:
