@@ -7,8 +7,7 @@ metadata:
     cert-manager.io/cluster-issuer: "ovh-prod-letsencrypt-issuer"
     haproxy-ingress.github.io/timeout-client: 180s
     haproxy-ingress.github.io/proxy-body-size: 8m
-    haproxy-ingress.github.io/ssl-passthrough: "true"
-    haproxy-ingress.github.io/backend-protocol: "h2-ssl"
+    haproxy-ingress.github.io/backend-protocol: "h2"
 spec:
   tls:
   - hosts:
@@ -24,4 +23,4 @@ spec:
           service:
             name: argocd-server
             port:
-              name: https
+              name: http
