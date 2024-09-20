@@ -4,6 +4,7 @@ metadata:
   name: ingress
   namespace: argocd
 spec:
+  syncPolicy: {}
   destination:
     namespace: default
     server: https://kubernetes.default.svc
