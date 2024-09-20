@@ -4,6 +4,7 @@ metadata:
   name: guestbook-ui
   namespace: guestbook
 spec:
+  ingressClassName: haproxy
   rules:
   - http:
       paths:
