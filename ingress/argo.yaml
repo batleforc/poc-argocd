@@ -9,6 +9,7 @@ metadata:
     haproxy-ingress.github.io/proxy-body-size: 8m
     haproxy-ingress.github.io/backend-protocol: "h2"
 spec:
+  ingressClassName: haproxy
   tls:
   - hosts:
     - argocd.ovh.weebo.fr
